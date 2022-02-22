@@ -6,12 +6,13 @@ type IHttpRequest = {
 };
 
 class SignUpController {
-    handle(httpRequest: IHttpRequest): any { 
+    handle(httpRequest: IHttpRequest): any {
 
         return {
             statusCode: 400,
-        }
-    }
+            body: new Error('Missing param: name')
+        };
+    };
 };
 
 
