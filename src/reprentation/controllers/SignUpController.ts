@@ -6,13 +6,13 @@ class SignUpController {
         const validate = SignUpController.validate(httpRequest.body);
         return validate;
     };
-    private static validate({ name, email }: any): any {
-        if (!name) {
-            return badRequest(new MissingParamError('name'));
-        };
+    private static validate(body: any): any {
+        const requiredFields = ['name', 'email'];
 
-        if (!email) {
-            return badRequest(new MissingParamError('email'));
+        for (const field of requiredFields) {
+            if ((!body[field])) {
+                return badRequest(new MissingParamError(field));
+            }
         };
     };
 };
