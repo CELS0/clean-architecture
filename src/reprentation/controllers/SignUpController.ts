@@ -7,7 +7,7 @@ class SignUpController {
         return validate;
     };
     private static validate(body: any): any {
-        const requiredFields = ['name', 'email'];
+        const requiredFields = ['name', 'email','password','passwordConfirmation'];
 
         for (const field of requiredFields) {
             if ((!body[field])) {
