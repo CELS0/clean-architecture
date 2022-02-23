@@ -1,4 +1,5 @@
-import { MissingParamError } from "../erros/MissingParamError";
+import { MissingParamError } from "../erros/MissingParamErros";
+import { badRequest } from "../helpers/httpHelpers";
 import { HttpResponse, HttpRequest } from "../protocols/http";
 class SignUpController {
     handle(httpRequest: HttpRequest): HttpResponse {
@@ -7,18 +8,13 @@ class SignUpController {
     };
     private static validate({ name, email }: any): any {
         if (!name) {
-            return {
-                statusCode: 400,
-                body: new MissingParamError('name')
-            };
-        }
+            return badRequest(new MissingParamError('name'));
+        };
+
         if (!email) {
-            return {
-                statusCode: 400,
-                body: new MissingParamError('email')
-            };
-        }
-    }
+            return badRequest(new MissingParamError('email'));
+        };
+    };
 };
 
 
