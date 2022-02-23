@@ -1,23 +1,16 @@
-type IHttpRequest = {
-    name?: string;
-    email?: string;
-    password?: string;
-    passwordConfirmation?: string;
-};
-
+import { HttpResponse, HttpRequest } from "../protocols/http";
 class SignUpController {
-    handle(httpRequest: IHttpRequest): any {
-        const validate = SignUpController.validate(httpRequest)
+    handle(httpRequest: HttpRequest): HttpResponse {
+        const validate = SignUpController.validate(httpRequest.body);
         return validate;
     };
-    private static validate({ name, email }: IHttpRequest): any {
+    private static validate({ name, email }: any): any {
         if (!name) {
             return {
                 statusCode: 400,
                 body: new Error('Missing param: name')
             };
         }
-
         if (!email) {
             return {
                 statusCode: 400,
@@ -28,4 +21,4 @@ class SignUpController {
 };
 
 
-export { SignUpController, IHttpRequest };
+export { SignUpController };

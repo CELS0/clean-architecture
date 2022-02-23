@@ -1,12 +1,14 @@
-import { IHttpRequest, SignUpController } from "./SignUpController";
+import { SignUpController } from "./SignUpController";
 
 describe('SignUpController.spec', () => {
     test('Should return 400 if no name is provided', () => {
         const sut = new SignUpController();
-        const httpRequest: IHttpRequest = {
-            email: 'any_email',
-            password: 'any_password',
-            passwordConfirmation: 'any_password_confirmation'
+        const httpRequest = {
+            body: {
+                email: 'any_email',
+                password: 'any_password',
+                passwordConfirmation: 'any_password_confirmation'
+            }
         }
         const httpReponse = sut.handle(httpRequest);
 
@@ -16,10 +18,12 @@ describe('SignUpController.spec', () => {
 
     test('Should return 400 if no email is provided', () => {
         const sut = new SignUpController();
-        const httpRequest: IHttpRequest = {
-            name: 'any_name',
-            password: 'any_password',
-            passwordConfirmation: 'any_password_confirmation'
+        const httpRequest = {
+            body: {
+                name: 'any_name',
+                password: 'any_password',
+                passwordConfirmation: 'any_password_confirmation'
+            }
         }
         const httpReponse = sut.handle(httpRequest);
 
