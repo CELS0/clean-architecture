@@ -1,10 +1,10 @@
-interface HttpResponse {
+interface IHttpResponse {
     statusCode: number,
     body: any
 }
 
-interface HttpRequest {
+interface IHttpRequest {
     body?: any,
 }
 
-export { HttpRequest, HttpResponse }
+export { IHttpRequest, IHttpResponse }
