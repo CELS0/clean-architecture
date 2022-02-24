@@ -1,5 +1,5 @@
 import { InvalidParamError, MissingParamError, ServerError } from "../erros";
-import { IEmailValidator } from "../protocols/emailValidator";
+import { IEmailValidator } from "../protocols";
 import { SignUpController } from "./SignUpController";
 
 interface StubTypes {
