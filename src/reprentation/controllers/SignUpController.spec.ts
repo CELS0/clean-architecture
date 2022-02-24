@@ -2,19 +2,26 @@ import { InvalidParamError, MissingParamError } from "../erros";
 import { IEmailValidator } from "../protocols/emailValidator";
 import { SignUpController } from "./SignUpController";
 
-const makeSut = (): SignUpController => {
+interface StubTypes {
+    sut: SignUpController,
+    mailValidatorStub: IEmailValidator,
+}
+
+const makeSut = (): StubTypes => {
     class MailValidatorStub implements IEmailValidator {
         isValid(email: string): boolean {
-            return false;
+            return true;
         }
     }
     const mailValidatorStub = new MailValidatorStub();
-    return new SignUpController(mailValidatorStub);
+    const sut = new SignUpController(mailValidatorStub);
+
+    return { sut, mailValidatorStub }
 };
 
 describe('SignUpController.spec', () => {
     test('Should return 400 if no name is provided', () => {
-        const sut = makeSut();
+        const { sut } = makeSut();
 
         const httpRequest = {
             body: {
@@ -30,7 +37,7 @@ describe('SignUpController.spec', () => {
     });
 
     test('Should return 400 if no email is provided', () => {
-        const sut = makeSut();
+        const { sut } = makeSut();
 
         const httpRequest = {
             body: {
@@ -46,7 +53,7 @@ describe('SignUpController.spec', () => {
     });
 
     test('Should return 400 if no password is provided', () => {
-        const sut = makeSut();
+        const { sut } = makeSut();
 
         const httpRequest = {
             body: {
@@ -62,7 +69,7 @@ describe('SignUpController.spec', () => {
     });
 
     test('Should return 400 if no passwordConfirmation is provided', () => {
-        const sut = makeSut();
+        const { sut } = makeSut();
 
         const httpRequest = {
             body: {
@@ -78,7 +85,7 @@ describe('SignUpController.spec', () => {
     });
 
     test('Should return 400 if an invalid email is provided', () => {
-        const sut = makeSut();
+        const { sut, mailValidatorStub } = makeSut();
 
         const httpRequest = {
             body: {
@@ -88,6 +95,10 @@ describe('SignUpController.spec', () => {
                 passwordConfirmation: 'any_password_confirmation'
             }
         }
+
+        jest
+        .spyOn(mailValidatorStub, 'isValid')
+        .mockReturnValueOnce(false)
 
         const httpReponse = sut.handle(httpRequest);
 
