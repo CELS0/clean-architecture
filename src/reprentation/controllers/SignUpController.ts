@@ -1,4 +1,4 @@
-import { InvalidParamError, MissingParamError, ServerError } from "../erros";
+import { InvalidParamError, MissingParamError } from "../erros";
 import { badRequest, serverError } from "../helpers/httpHelpers";
 import { IController } from "../protocols/controller";
 import { IEmailValidator } from "../protocols/emailValidator";
@@ -20,7 +20,7 @@ class SignUpController implements IController {
                 return badRequest(new InvalidParamError('email'));
             };
         } catch (err) {
-            return serverError(new ServerError());
+            return serverError();
         }
     };
 };
