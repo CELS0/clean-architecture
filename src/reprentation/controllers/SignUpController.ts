@@ -8,15 +8,23 @@ class SignUpController implements IController {
         const requiredFields = ['name', 'email', 'password', 'passwordConfirmation'];
 
         try {
+            const { email, password, passwordConfirmation } = httpRequest.body;
+
             for (const field of requiredFields) {
                 if ((!httpRequest.body[field])) {
                     return badRequest(new MissingParamError(field));
                 }
             };
-            const isValidEmail = this.emailValidator.isValid(httpRequest.body.email)
+
+            const isValidEmail = this.emailValidator.isValid(email)
             if (!isValidEmail) {
                 return badRequest(new InvalidParamError('email'));
             };
+
+            if (password !== passwordConfirmation) {
+                return badRequest(new InvalidParamError('email'));
+            }
+
         } catch (err) {
             return serverError();
         }
