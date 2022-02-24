@@ -1,7 +1,8 @@
 import { MissingParamError } from "../erros/MissingParamErros";
 import { badRequest } from "../helpers/httpHelpers";
+import { IController } from "../protocols/controller";
 import { IHttpRequest, IHttpResponse } from "../protocols/http";
-class SignUpController {
+class SignUpController implements IController {
     handle(httpRequest: IHttpRequest): IHttpResponse {
         const validate = SignUpController.validate(httpRequest.body);
         return validate;
@@ -16,6 +17,5 @@ class SignUpController {
         };
     };
 };
-
 
 export { SignUpController };
