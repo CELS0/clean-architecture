@@ -97,12 +97,31 @@ describe('SignUpController.spec', () => {
         }
 
         jest
-        .spyOn(mailValidatorStub, 'isValid')
-        .mockReturnValueOnce(false)
+            .spyOn(mailValidatorStub, 'isValid')
+            .mockReturnValueOnce(false)
 
         const httpReponse = sut.handle(httpRequest);
 
         expect(httpReponse.statusCode).toBe(400);
         expect(httpReponse.body).toEqual(new InvalidParamError('email'));
+    });
+
+    test('Should call EmailValidator with correct email', () => {
+        const { sut, mailValidatorStub } = makeSut();
+
+        const httpRequest = {
+            body: {
+                email: 'any_email',
+                name: 'any_name',
+                password: 'any_password',
+                passwordConfirmation: 'any_password_confirmation'
+            }
+        };
+
+        const isValidSpy = jest.spyOn(mailValidatorStub, 'isValid');
+
+        sut.handle(httpRequest);
+
+        expect(isValidSpy).toHaveBeenCalledWith('any_email');
     });
 });
